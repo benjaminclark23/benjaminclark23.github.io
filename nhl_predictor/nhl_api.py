@@ -21,18 +21,20 @@ import certifi
 
 from . import config
 
+# Use certifi's certificate bundle so HTTPS works on macOS (avoids CERTIFICATE_VERIFY_FAILED)
 _SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
 
 def _iso_utc_to_local_label(start_time_utc: str | None) -> str:
+    """Convert ISO UTC like '2026-02-25T00:30:00Z' to local '7:30 PM'."""
     if not start_time_utc:
         return "TBD"
     s = start_time_utc.replace("Z", "+00:00")
-    dt = datetime.fromisoformat(s).astimezone()
+    dt = datetime.fromisoformat(s).astimezone()  # system local tz
     try:
-        return dt.strftime("%-I:%M %p")
+        return dt.strftime("%-I:%M %p")  # mac/linux
     except ValueError:
-        return dt.strftime("%I:%M %p").lstrip("0")
+        return dt.strftime("%I:%M %p").lstrip("0")  # fallback
 
 
 def _get(url: str):
@@ -45,6 +47,7 @@ def _get(url: str):
 
 
 def get_schedule(for_date: date) -> list[dict]:
+    """Return list of scheduled games for the given date (future/upcoming)."""
     url = f"{config.NHL_WEB_BASE}/schedule/{for_date.isoformat()}"
     data = _get(url)
 
@@ -56,6 +59,7 @@ def get_schedule(for_date: date) -> list[dict]:
         for g in week.get("games", []):
             raw_game_date = g.get("gameDate") or g.get("date") or week.get("date")
 
+            # Keep only games that are not started/finished.
             state = (g.get("gameState") or "").upper()
             if state in ("OFF", "FINAL", "LIVE", "CRIT", "IN_PROGRESS"):
                 continue
@@ -80,23 +84,22 @@ def get_schedule(for_date: date) -> list[dict]:
             if game_date != target_date:
                 continue
 
-            games.append(
-                {
-                    "id": g["id"],
-                    "date": game_date,
-                    "homeAbbrev": home.get("abbrev") or (home.get("teamAbbrev") or {}).get("default"),
-                    "awayAbbrev": away.get("abbrev") or (away.get("teamAbbrev") or {}).get("default"),
-                    "homeId": home.get("id"),
-                    "awayId": away.get("id"),
-                    "startTimeUTC": start_time_utc,
-                    "gameTimeLocal": _iso_utc_to_local_label(start_time_utc),
-                }
-            )
+            games.append({
+                "id": g["id"],
+                "date": game_date,
+                "homeAbbrev": home.get("abbrev") or (home.get("teamAbbrev") or {}).get("default"),
+                "awayAbbrev": away.get("abbrev") or (away.get("teamAbbrev") or {}).get("default"),
+                "homeId": home.get("id"),
+                "awayId": away.get("id"),
+                "startTimeUTC": start_time_utc,
+                "gameTimeLocal": _iso_utc_to_local_label(start_time_utc),
+            })
 
     return games
 
 
 def get_schedule_range(start: date, end: date) -> list[dict]:
+    """Return scheduled games between start and end (inclusive)."""
     if end < start:
         start, end = end, start
 
@@ -119,6 +122,7 @@ def get_schedule_range(start: date, end: date) -> list[dict]:
 
 
 def get_standings() -> dict:
+    """Return standings with last-10 and season W-L. Keyed by team abbrev."""
     url = f"{config.NHL_WEB_BASE}/standings/now"
     data = _get(url)
     by_abbrev = {}
@@ -144,6 +148,7 @@ def get_standings() -> dict:
 
 
 def get_team_stats_season() -> dict:
+    """Return team summary stats including PP/PK. Keyed by team abbrev."""
     season_id = config.current_season_id()
     url = f"{config.NHL_STATS_BASE}/team/summary?limit=50&sort=gamesPlayed&order=desc&cayenneExp=gameTypeId=2%20and%20seasonId={season_id}"
     data = _get(url)
