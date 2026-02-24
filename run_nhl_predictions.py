@@ -1,16 +1,26 @@
 #!/usr/bin/env python3
-"""
-Run NHL game predictions and show odds for the next game day (or a given date).
-Writes nhl_data/predictions.json and prints odds for every game that night.
+""" 
+Run NHL game predictions and write odds for multiple upcoming dates.
 
-  python run_nhl_predictions.py              # next date that has games
-  python run_nhl_predictions.py 2026-02-25   # specific date
+- By default, builds predictions for the next 14 days starting tomorrow.
+- If you pass a date (YYYY-MM-DD), it builds predictions starting from that date.
+
+Writes `nhl_data/predictions.json` in a multi-day format so the static site can
+show odds for dates a week+ out.
+
+Examples:
+  python run_nhl_predictions.py
+  python run_nhl_predictions.py 2026-02-25
+  python run_nhl_predictions.py 2026-02-25 --days 21
 """
 
-from datetime import date
+from datetime import date, timedelta
 import sys
+import json
+import argparse
+from pathlib import Path
 
-from nhl_predictor.main import run_predictions, write_predictions
+from nhl_predictor.main import run_predictions
 
 # Simple ANSI colors per team (approximate primary colors)
 RESET = "\033[0m"
@@ -59,46 +69,88 @@ def color_team(abbrev: str) -> str:
     return f"{BOLD}{code}{abbrev}{RESET}"
 
 
+def write_predictions_multi(predictions: list[dict]) -> str:
+    """Write predictions in a multi-day JSON format for the static site."""
+    out_path = Path(__file__).resolve().parent / "nhl_data" / "predictions.json"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    payload = {
+        "generatedAt": date.today().isoformat(),
+        "predictions": predictions,
+    }
+
+    out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    return str(out_path)
+
+
 if __name__ == "__main__":
-    for_date = None
-    if len(sys.argv) > 1:
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("date", nargs="?", default=None, help="Start date (YYYY-MM-DD)")
+    parser.add_argument("--days", type=int, default=14, help="How many days to generate (default: 14)")
+    args, _ = parser.parse_known_args()
+
+    # Determine start date
+    if args.date:
         try:
-            for_date = date.fromisoformat(sys.argv[1])
+            start_date = date.fromisoformat(args.date)
         except ValueError:
-            print("Usage: python run_nhl_predictions.py [YYYY-MM-DD]")
+            print("Usage: python run_nhl_predictions.py [YYYY-MM-DD] [--days N]")
             sys.exit(1)
+    else:
+        start_date = date.today() + timedelta(days=1)
 
-    payload = run_predictions(for_date)
-    path = write_predictions(payload)
-    games = payload.get("games", [])
-    game_date = payload.get("date", "")
+    days = max(1, min(int(args.days), 60))  # cap to keep runtime reasonable
 
-    # Show odds for all games on this game day
+    predictions: list[dict] = []
+    total_games = 0
+
+    for i in range(days):
+        d = start_date + timedelta(days=i)
+        payload = run_predictions(d)
+
+        # Normalize structure
+        games = payload.get("games", []) or []
+        game_date = payload.get("date") or d.isoformat()
+
+        predictions.append({
+            "date": game_date,
+            "games": games,
+        })
+        total_games += len(games)
+
+    path = write_predictions_multi(predictions)
+
+    # Print a compact summary
     print()
     print("=" * 72)
-    title = f"NHL PREDICTED ODDS — {game_date}"
+    title = f"NHL PREDICTED ODDS — {start_date.isoformat()} (+{days-1} days)"
     print(f"{BOLD}{title:^{72}}{RESET}")
     print("=" * 72)
-    if not games:
-        print("  No games scheduled for this date.")
-        print("  (Predictions file written with empty games.)")
+
+    non_empty = [p for p in predictions if p.get("games")]
+    if not non_empty:
+        print("  No games scheduled in this window.")
     else:
-        for i, g in enumerate(games, 1):
-            away = g["awayTeam"]
-            home = g["homeTeam"]
-            home_odds = g["homeAmericanOdds"]
-            away_odds = g["awayAmericanOdds"]
+        for block in non_empty:
+            game_date = block.get("date", "")
+            games = block.get("games", [])
+            print(f"\n  {BOLD}{game_date}{RESET} — {len(games)} game(s)")
+            for j, g in enumerate(games, 1):
+                away = g.get("awayTeam")
+                home = g.get("homeTeam")
+                home_odds = g.get("homeAmericanOdds")
+                away_odds = g.get("awayAmericanOdds")
 
-            away_label = color_team(away)
-            home_label = color_team(home)
+                away_label = color_team(away) if away else "?"
+                home_label = color_team(home) if home else "?"
 
-            print(f"  {i:2d}. {away_label} @ {home_label}")
-            print(
-                f"       Home: {home_odds:+5d}   "
-                f"Away: {away_odds:+5d}"
-            )
-            print()
-    print("=" * 72)
-    print(f"  Wrote {len(games)} game(s) to {path}")
+                # Odds may be missing for far-future games if your pipeline can’t compute them yet
+                home_str = f"{home_odds:+5d}" if isinstance(home_odds, int) else "  N/A"
+                away_str = f"{away_odds:+5d}" if isinstance(away_odds, int) else "  N/A"
+
+                print(f"    {j:2d}. {away_label} @ {home_label}   Home: {home_str}  Away: {away_str}")
+
+    print("\n" + "=" * 72)
+    print(f"  Wrote {len(predictions)} day(s), {total_games} total game(s) to {path}")
     print("=" * 72)
     print()

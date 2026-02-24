@@ -27,16 +27,19 @@ def home():
 def default_tomorrow_str() -> str:
     return (date.today() + timedelta(days=1)).isoformat()
 
-from fastapi import HTTPException
-from datetime import date
-
 @app.get("/api/predictions")
 def predictions(date_str: str = Query(default=None, alias="date")):
-    # If no date provided, use tomorrow as a date object
+    """Return predictions for a specific date.
+
+    - If `date` is provided (YYYY-MM-DD), run predictions for that date.
+    - If not provided, default to tomorrow.
+
+    This endpoint should NOT auto-skip forward to the next game day; the caller/UI
+    controls which date to request.
+    """
     if not date_str:
         for_date = date.today() + timedelta(days=1)
     else:
-        # Convert "YYYY-MM-DD" -> datetime.date
         try:
             for_date = date.fromisoformat(date_str)
         except ValueError:
@@ -48,26 +51,3 @@ def predictions(date_str: str = Query(default=None, alias="date")):
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-from datetime import date, timedelta
-
-def next_game_day(max_lookahead_days: int = 10) -> date:
-    today = date.today()
-    for i in range(1, max_lookahead_days + 1):
-        d = today + timedelta(days=i)
-        payload = run_predictions(d)
-        if payload.get("games"):
-            return d
-    return today + timedelta(days=1)  # fallback
-
-@app.get("/api/predictions")
-def predictions(date_str: str = Query(default=None, alias="date")):
-    if not date_str:
-        for_date = next_game_day()
-    else:
-        try:
-            for_date = date.fromisoformat(date_str)
-        except ValueError:
-            raise HTTPException(status_code=400, detail="Date must be YYYY-MM-DD")
-
-    return run_predictions(for_date)
