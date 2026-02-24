@@ -2,6 +2,83 @@
   "generatedAt": "2026-02-23",
   "predictions": [
     {
+      "date": "2026-02-25",
+      "games": [
+        {
+          "gameId": 2025020910,
+          "date": "2026-02-25",
+          "homeTeam": "NJD",
+          "awayTeam": "BUF",
+          "homeWinProb": 0.482,
+          "homeAmericanOdds": 101,
+          "awayAmericanOdds": -114
+        },
+        {
+          "gameId": 2025020911,
+          "date": "2026-02-25",
+          "homeTeam": "WSH",
+          "awayTeam": "PHI",
+          "homeWinProb": 0.451,
+          "homeAmericanOdds": 115,
+          "awayAmericanOdds": -130
+        },
+        {
+          "gameId": 2025020912,
+          "date": "2026-02-25",
+          "homeTeam": "TBL",
+          "awayTeam": "TOR",
+          "homeWinProb": 0.502,
+          "homeAmericanOdds": -107,
+          "awayAmericanOdds": -105
+        },
+        {
+          "gameId": 2025020913,
+          "date": "2026-02-25",
+          "homeTeam": "DAL",
+          "awayTeam": "SEA",
+          "homeWinProb": 0.635,
+          "homeAmericanOdds": -189,
+          "awayAmericanOdds": 166
+        },
+        {
+          "gameId": 2025020914,
+          "date": "2026-02-25",
+          "homeTeam": "UTA",
+          "awayTeam": "COL",
+          "homeWinProb": 0.491,
+          "homeAmericanOdds": -102,
+          "awayAmericanOdds": -110
+        },
+        {
+          "gameId": 2025020915,
+          "date": "2026-02-25",
+          "homeTeam": "VAN",
+          "awayTeam": "WPG",
+          "homeWinProb": 0.401,
+          "homeAmericanOdds": 142,
+          "awayAmericanOdds": -161
+        },
+        {
+          "gameId": 2025020916,
+          "date": "2026-02-25",
+          "homeTeam": "LAK",
+          "awayTeam": "VGK",
+          "homeWinProb": 0.49,
+          "homeAmericanOdds": -102,
+          "awayAmericanOdds": -110
+        },
+        {
+          "gameId": 2025020917,
+          "date": "2026-02-25",
+          "homeTeam": "ANA",
+          "awayTeam": "EDM",
+          "homeWinProb": 0.462,
+          "homeAmericanOdds": 110,
+          "awayAmericanOdds": -124
+        }
+      ]
+    },
+    {
       "date": "2026-02-26",
       "games": [
         {
@@ -18,8 +95,8 @@
           "date": "2026-02-26",
           "homeTeam": "MTL",
           "awayTeam": "NYI",
-          "homeWinProb": 0.53,
-          "homeAmericanOdds": -120,
+          "homeWinProb": 0.531,
+          "homeAmericanOdds": -121,
           "awayAmericanOdds": 107
         },
         {
@@ -27,90 +104,1517 @@
           "date": "2026-02-26",
           "homeTeam": "OTT",
           "awayTeam": "DET",
-          "homeWinProb": 0.437,
-          "homeAmericanOdds": 122,
-          "awayAmericanOdds": -138
+          "homeWinProb": 0.432,
+          "homeAmericanOdds": 125,
+          "awayAmericanOdds": -141
         },
         {
           "gameId": 2025020921,
           "date": "2026-02-26",
           "homeTeam": "FLA",
           "awayTeam": "TOR",
-          "homeWinProb": 0.429,
-          "homeAmericanOdds": 127,
-          "awayAmericanOdds": -143
+          "homeWinProb": 0.432,
+          "homeAmericanOdds": 125,
+          "awayAmericanOdds": -141
         },
         {
           "gameId": 2025020922,
           "date": "2026-02-26",
           "homeTeam": "PIT",
           "awayTeam": "NJD",
-          "homeWinProb": 0.645,
-          "homeAmericanOdds": -198,
-          "awayAmericanOdds": 173
+          "homeWinProb": 0.581,
+          "homeAmericanOdds": -149,
+          "awayAmericanOdds": 132
         },
         {
           "gameId": 2025020923,
           "date": "2026-02-26",
           "homeTeam": "CAR",
           "awayTeam": "TBL",
-          "homeWinProb": 0.436,
-          "homeAmericanOdds": 123,
-          "awayAmericanOdds": -139
+          "homeWinProb": 0.439,
+          "homeAmericanOdds": 121,
+          "awayAmericanOdds": -137
         },
         {
           "gameId": 2025020924,
           "date": "2026-02-26",
           "homeTeam": "NYR",
           "awayTeam": "PHI",
-          "homeWinProb": 0.55,
-          "homeAmericanOdds": -131,
-          "awayAmericanOdds": 116
+          "homeWinProb": 0.568,
+          "homeAmericanOdds": -141,
+          "awayAmericanOdds": 125
         },
         {
           "gameId": 2025020925,
           "date": "2026-02-26",
           "homeTeam": "STL",
           "awayTeam": "SEA",
-          "homeWinProb": 0.328,
-          "homeAmericanOdds": 196,
-          "awayAmericanOdds": -225
+          "homeWinProb": 0.387,
+          "homeAmericanOdds": 151,
+          "awayAmericanOdds": -172
         },
         {
           "gameId": 2025020926,
           "date": "2026-02-26",
           "homeTeam": "NSH",
           "awayTeam": "CHI",
-          "homeWinProb": 0.551,
-          "homeAmericanOdds": -131,
-          "awayAmericanOdds": 116
+          "homeWinProb": 0.529,
+          "homeAmericanOdds": -120,
+          "awayAmericanOdds": 106
         },
         {
           "gameId": 2025020927,
           "date": "2026-02-26",
           "homeTeam": "COL",
           "awayTeam": "MIN",
-          "homeWinProb": 0.58,
-          "homeAmericanOdds": -148,
-          "awayAmericanOdds": 131
+          "homeWinProb": 0.488,
+          "homeAmericanOdds": -101,
+          "awayAmericanOdds": -112
         },
         {
           "gameId": 2025020928,
           "date": "2026-02-26",
           "homeTeam": "SJS",
           "awayTeam": "CGY",
-          "homeWinProb": 0.477,
-          "homeAmericanOdds": 104,
-          "awayAmericanOdds": -117
+          "homeWinProb": 0.496,
+          "homeAmericanOdds": -104,
+          "awayAmericanOdds": -108
         },
         {
           "gameId": 2025020929,
           "date": "2026-02-26",
           "homeTeam": "LAK",
           "awayTeam": "EDM",
+          "homeWinProb": 0.591,
+          "homeAmericanOdds": -156,
+          "awayAmericanOdds": 138
+        }
+      ]
+    },
+    {
+      "date": "2026-02-27",
+      "games": [
+        {
+          "gameId": 2025020930,
+          "date": "2026-02-27",
+          "homeTeam": "FLA",
+          "awayTeam": "BUF",
+          "homeWinProb": 0.458,
+          "homeAmericanOdds": 112,
+          "awayAmericanOdds": -126
+        },
+        {
+          "gameId": 2025020931,
+          "date": "2026-02-27",
+          "homeTeam": "WSH",
+          "awayTeam": "VGK",
+          "homeWinProb": 0.521,
+          "homeAmericanOdds": -116,
+          "awayAmericanOdds": 103
+        },
+        {
+          "gameId": 2025020932,
+          "date": "2026-02-27",
+          "homeTeam": "UTA",
+          "awayTeam": "MIN",
+          "homeWinProb": 0.566,
+          "homeAmericanOdds": -140,
+          "awayAmericanOdds": 124
+        },
+        {
+          "gameId": 2025020933,
+          "date": "2026-02-27",
+          "homeTeam": "ANA",
+          "awayTeam": "WPG",
+          "homeWinProb": 0.645,
+          "homeAmericanOdds": -198,
+          "awayAmericanOdds": 174
+        }
+      ]
+    },
+    {
+      "date": "2026-02-28",
+      "games": [
+        {
+          "gameId": 2025020934,
+          "date": "2026-02-28",
+          "homeTeam": "NYR",
+          "awayTeam": "PIT",
+          "homeWinProb": 0.405,
+          "homeAmericanOdds": 139,
+          "awayAmericanOdds": -158
+        },
+        {
+          "gameId": 2025020935,
+          "date": "2026-02-28",
+          "homeTeam": "PHI",
+          "awayTeam": "BOS",
+          "homeWinProb": 0.397,
+          "homeAmericanOdds": 145,
+          "awayAmericanOdds": -164
+        },
+        {
+          "gameId": 2025020936,
+          "date": "2026-02-28",
+          "homeTeam": "SJS",
+          "awayTeam": "EDM",
+          "homeWinProb": 0.425,
+          "homeAmericanOdds": 129,
+          "awayAmericanOdds": -145
+        },
+        {
+          "gameId": 2025020943,
+          "date": "2026-02-28",
+          "homeTeam": "STL",
+          "awayTeam": "NJD",
+          "homeWinProb": 0.409,
+          "homeAmericanOdds": 137,
+          "awayAmericanOdds": -156
+        },
+        {
+          "gameId": 2025020937,
+          "date": "2026-02-28",
+          "homeTeam": "CBJ",
+          "awayTeam": "NYI",
+          "homeWinProb": 0.547,
+          "homeAmericanOdds": -129,
+          "awayAmericanOdds": 115
+        },
+        {
+          "gameId": 2025020938,
+          "date": "2026-02-28",
+          "homeTeam": "COL",
+          "awayTeam": "CHI",
+          "homeWinProb": 0.636,
+          "homeAmericanOdds": -190,
+          "awayAmericanOdds": 167
+        },
+        {
+          "gameId": 2025020939,
+          "date": "2026-02-28",
+          "homeTeam": "TOR",
+          "awayTeam": "OTT",
+          "homeWinProb": 0.585,
+          "homeAmericanOdds": -151,
+          "awayAmericanOdds": 134
+        },
+        {
+          "gameId": 2025020940,
+          "date": "2026-02-28",
+          "homeTeam": "MTL",
+          "awayTeam": "WSH",
+          "homeWinProb": 0.464,
+          "homeAmericanOdds": 109,
+          "awayAmericanOdds": -123
+        },
+        {
+          "gameId": 2025020941,
+          "date": "2026-02-28",
+          "homeTeam": "TBL",
+          "awayTeam": "BUF",
+          "homeWinProb": 0.634,
+          "homeAmericanOdds": -188,
+          "awayAmericanOdds": 165
+        },
+        {
+          "gameId": 2025020942,
+          "date": "2026-02-28",
+          "homeTeam": "CAR",
+          "awayTeam": "DET",
+          "homeWinProb": 0.557,
+          "homeAmericanOdds": -135,
+          "awayAmericanOdds": 119
+        },
+        {
+          "gameId": 2025020944,
+          "date": "2026-02-28",
+          "homeTeam": "LAK",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.449,
+          "homeAmericanOdds": 116,
+          "awayAmericanOdds": -131
+        },
+        {
+          "gameId": 2025020945,
+          "date": "2026-02-28",
+          "homeTeam": "DAL",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.65,
+          "homeAmericanOdds": -203,
+          "awayAmericanOdds": 177
+        },
+        {
+          "gameId": 2025020946,
+          "date": "2026-02-28",
+          "homeTeam": "SEA",
+          "awayTeam": "VAN",
+          "homeWinProb": 0.583,
+          "homeAmericanOdds": -150,
+          "awayAmericanOdds": 133
+        }
+      ]
+    },
+    {
+      "date": "2026-03-01",
+      "games": [
+        {
+          "gameId": 2025020947,
+          "date": "2026-03-01",
+          "homeTeam": "PIT",
+          "awayTeam": "VGK",
+          "homeWinProb": 0.566,
+          "homeAmericanOdds": -140,
+          "awayAmericanOdds": 124
+        },
+        {
+          "gameId": 2025020949,
+          "date": "2026-03-01",
+          "homeTeam": "UTA",
+          "awayTeam": "CHI",
+          "homeWinProb": 0.474,
+          "homeAmericanOdds": 105,
+          "awayAmericanOdds": -118
+        },
+        {
+          "gameId": 2025020950,
+          "date": "2026-03-01",
+          "homeTeam": "SJS",
+          "awayTeam": "WPG",
+          "homeWinProb": 0.608,
+          "homeAmericanOdds": -167,
+          "awayAmericanOdds": 147
+        },
+        {
+          "gameId": 2025020951,
+          "date": "2026-03-01",
+          "homeTeam": "MIN",
+          "awayTeam": "STL",
+          "homeWinProb": 0.698,
+          "homeAmericanOdds": -255,
+          "awayAmericanOdds": 221
+        },
+        {
+          "gameId": 2025020948,
+          "date": "2026-03-01",
+          "homeTeam": "NYI",
+          "awayTeam": "FLA",
+          "homeWinProb": 0.465,
+          "homeAmericanOdds": 109,
+          "awayAmericanOdds": -123
+        },
+        {
+          "gameId": 2025020952,
+          "date": "2026-03-01",
+          "homeTeam": "ANA",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.64,
+          "homeAmericanOdds": -193,
+          "awayAmericanOdds": 170
+        }
+      ]
+    },
+    {
+      "date": "2026-03-02",
+      "games": [
+        {
+          "gameId": 2025020955,
+          "date": "2026-03-02",
+          "homeTeam": "NSH",
+          "awayTeam": "DET",
+          "homeWinProb": 0.572,
+          "homeAmericanOdds": -143,
+          "awayAmericanOdds": 127
+        },
+        {
+          "gameId": 2025020953,
+          "date": "2026-03-02",
+          "homeTeam": "NYR",
+          "awayTeam": "CBJ",
+          "homeWinProb": 0.517,
+          "homeAmericanOdds": -114,
+          "awayAmericanOdds": 101
+        },
+        {
+          "gameId": 2025020954,
+          "date": "2026-03-02",
+          "homeTeam": "TOR",
+          "awayTeam": "PHI",
+          "homeWinProb": 0.606,
+          "homeAmericanOdds": -166,
+          "awayAmericanOdds": 147
+        },
+        {
+          "gameId": 2025020956,
+          "date": "2026-03-02",
+          "homeTeam": "VAN",
+          "awayTeam": "DAL",
+          "homeWinProb": 0.422,
+          "homeAmericanOdds": 130,
+          "awayAmericanOdds": -147
+        },
+        {
+          "gameId": 2025020957,
+          "date": "2026-03-02",
+          "homeTeam": "SEA",
+          "awayTeam": "CAR",
+          "homeWinProb": 0.39,
+          "homeAmericanOdds": 149,
+          "awayAmericanOdds": -169
+        },
+        {
+          "gameId": 2025020958,
+          "date": "2026-03-02",
+          "homeTeam": "LAK",
+          "awayTeam": "COL",
+          "homeWinProb": 0.418,
+          "homeAmericanOdds": 132,
+          "awayAmericanOdds": -149
+        }
+      ]
+    },
+    {
+      "date": "2026-03-03",
+      "games": [
+        {
+          "gameId": 2025020959,
+          "date": "2026-03-03",
+          "homeTeam": "BOS",
+          "awayTeam": "PIT",
+          "homeWinProb": 0.587,
+          "homeAmericanOdds": -153,
+          "awayAmericanOdds": 135
+        },
+        {
+          "gameId": 2025020960,
+          "date": "2026-03-03",
+          "homeTeam": "BUF",
+          "awayTeam": "VGK",
+          "homeWinProb": 0.544,
+          "homeAmericanOdds": -127,
+          "awayAmericanOdds": 113
+        },
+        {
+          "gameId": 2025020961,
+          "date": "2026-03-03",
+          "homeTeam": "NJD",
+          "awayTeam": "FLA",
+          "homeWinProb": 0.516,
+          "homeAmericanOdds": -113,
+          "awayAmericanOdds": 100
+        },
+        {
+          "gameId": 2025020962,
+          "date": "2026-03-03",
+          "homeTeam": "WSH",
+          "awayTeam": "UTA",
+          "homeWinProb": 0.504,
+          "homeAmericanOdds": -108,
+          "awayAmericanOdds": -104
+        },
+        {
+          "gameId": 2025020963,
+          "date": "2026-03-03",
+          "homeTeam": "CBJ",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.489,
+          "homeAmericanOdds": -101,
+          "awayAmericanOdds": -111
+        },
+        {
+          "gameId": 2025020964,
+          "date": "2026-03-03",
+          "homeTeam": "WPG",
+          "awayTeam": "CHI",
+          "homeWinProb": 0.52,
+          "homeAmericanOdds": -115,
+          "awayAmericanOdds": 102
+        },
+        {
+          "gameId": 2025020965,
+          "date": "2026-03-03",
+          "homeTeam": "CGY",
+          "awayTeam": "DAL",
+          "homeWinProb": 0.546,
+          "homeAmericanOdds": -129,
+          "awayAmericanOdds": 114
+        },
+        {
+          "gameId": 2025020966,
+          "date": "2026-03-03",
+          "homeTeam": "EDM",
+          "awayTeam": "OTT",
+          "homeWinProb": 0.594,
+          "homeAmericanOdds": -158,
+          "awayAmericanOdds": 139
+        },
+        {
+          "gameId": 2025020967,
+          "date": "2026-03-03",
+          "homeTeam": "MIN",
+          "awayTeam": "TBL",
+          "homeWinProb": 0.513,
+          "homeAmericanOdds": -112,
+          "awayAmericanOdds": -101
+        },
+        {
+          "gameId": 2025020968,
+          "date": "2026-03-03",
+          "homeTeam": "ANA",
+          "awayTeam": "COL",
+          "homeWinProb": 0.529,
+          "homeAmericanOdds": -120,
+          "awayAmericanOdds": 106
+        },
+        {
+          "gameId": 2025020969,
+          "date": "2026-03-03",
+          "homeTeam": "SJS",
+          "awayTeam": "MTL",
+          "homeWinProb": 0.486,
+          "homeAmericanOdds": -100,
+          "awayAmericanOdds": -113
+        }
+      ]
+    },
+    {
+      "date": "2026-03-04",
+      "games": [
+        {
+          "gameId": 2025020970,
+          "date": "2026-03-04",
+          "homeTeam": "DET",
+          "awayTeam": "VGK",
+          "homeWinProb": 0.46,
+          "homeAmericanOdds": 111,
+          "awayAmericanOdds": -125
+        },
+        {
+          "gameId": 2025020971,
+          "date": "2026-03-04",
+          "homeTeam": "NJD",
+          "awayTeam": "TOR",
+          "homeWinProb": 0.508,
+          "homeAmericanOdds": -110,
+          "awayAmericanOdds": -103
+        },
+        {
+          "gameId": 2025020972,
+          "date": "2026-03-04",
+          "homeTeam": "VAN",
+          "awayTeam": "CAR",
+          "homeWinProb": 0.327,
+          "homeAmericanOdds": 197,
+          "awayAmericanOdds": -226
+        },
+        {
+          "gameId": 2025020973,
+          "date": "2026-03-04",
+          "homeTeam": "ANA",
+          "awayTeam": "NYI",
+          "homeWinProb": 0.455,
+          "homeAmericanOdds": 114,
+          "awayAmericanOdds": -128
+        },
+        {
+          "gameId": 2025020974,
+          "date": "2026-03-04",
+          "homeTeam": "SEA",
+          "awayTeam": "STL",
+          "homeWinProb": 0.653,
+          "homeAmericanOdds": -206,
+          "awayAmericanOdds": 180
+        }
+      ]
+    },
+    {
+      "date": "2026-03-05",
+      "games": [
+        {
+          "gameId": 2025020975,
+          "date": "2026-03-05",
+          "homeTeam": "NYR",
+          "awayTeam": "TOR",
+          "homeWinProb": 0.401,
+          "homeAmericanOdds": 142,
+          "awayAmericanOdds": -161
+        },
+        {
+          "gameId": 2025020976,
+          "date": "2026-03-05",
+          "homeTeam": "PHI",
+          "awayTeam": "UTA",
+          "homeWinProb": 0.413,
+          "homeAmericanOdds": 135,
+          "awayAmericanOdds": -153
+        },
+        {
+          "gameId": 2025020977,
+          "date": "2026-03-05",
+          "homeTeam": "PIT",
+          "awayTeam": "BUF",
+          "homeWinProb": 0.622,
+          "homeAmericanOdds": -178,
+          "awayAmericanOdds": 157
+        },
+        {
+          "gameId": 2025020978,
+          "date": "2026-03-05",
+          "homeTeam": "CBJ",
+          "awayTeam": "FLA",
+          "homeWinProb": 0.492,
+          "homeAmericanOdds": -103,
+          "awayAmericanOdds": -110
+        },
+        {
+          "gameId": 2025020979,
+          "date": "2026-03-05",
+          "homeTeam": "NSH",
+          "awayTeam": "BOS",
+          "homeWinProb": 0.399,
+          "homeAmericanOdds": 143,
+          "awayAmericanOdds": -163
+        },
+        {
+          "gameId": 2025020980,
+          "date": "2026-03-05",
+          "homeTeam": "WPG",
+          "awayTeam": "TBL",
+          "homeWinProb": 0.364,
+          "homeAmericanOdds": 166,
+          "awayAmericanOdds": -189
+        },
+        {
+          "gameId": 2025020981,
+          "date": "2026-03-05",
+          "homeTeam": "CGY",
+          "awayTeam": "OTT",
+          "homeWinProb": 0.416,
+          "homeAmericanOdds": 133,
+          "awayAmericanOdds": -151
+        },
+        {
+          "gameId": 2025020982,
+          "date": "2026-03-05",
+          "homeTeam": "LAK",
+          "awayTeam": "NYI",
+          "homeWinProb": 0.504,
+          "homeAmericanOdds": -108,
+          "awayAmericanOdds": -105
+        }
+      ]
+    },
+    {
+      "date": "2026-03-06",
+      "games": [
+        {
+          "gameId": 2025020983,
+          "date": "2026-03-06",
+          "homeTeam": "DET",
+          "awayTeam": "FLA",
+          "homeWinProb": 0.631,
+          "homeAmericanOdds": -186,
+          "awayAmericanOdds": 163
+        },
+        {
+          "gameId": 2025020984,
+          "date": "2026-03-06",
+          "homeTeam": "DAL",
+          "awayTeam": "COL",
+          "homeWinProb": 0.623,
+          "homeAmericanOdds": -179,
+          "awayAmericanOdds": 158
+        },
+        {
+          "gameId": 2025020985,
+          "date": "2026-03-06",
+          "homeTeam": "CHI",
+          "awayTeam": "VAN",
+          "homeWinProb": 0.559,
+          "homeAmericanOdds": -136,
+          "awayAmericanOdds": 120
+        },
+        {
+          "gameId": 2025020986,
+          "date": "2026-03-06",
+          "homeTeam": "EDM",
+          "awayTeam": "CAR",
+          "homeWinProb": 0.549,
+          "homeAmericanOdds": -130,
+          "awayAmericanOdds": 115
+        },
+        {
+          "gameId": 2025020987,
+          "date": "2026-03-06",
+          "homeTeam": "ANA",
+          "awayTeam": "MTL",
+          "homeWinProb": 0.523,
+          "homeAmericanOdds": -117,
+          "awayAmericanOdds": 104
+        },
+        {
+          "gameId": 2025020988,
+          "date": "2026-03-06",
+          "homeTeam": "VGK",
+          "awayTeam": "MIN",
+          "homeWinProb": 0.389,
+          "homeAmericanOdds": 150,
+          "awayAmericanOdds": -170
+        },
+        {
+          "gameId": 2025020989,
+          "date": "2026-03-06",
+          "homeTeam": "SJS",
+          "awayTeam": "STL",
+          "homeWinProb": 0.557,
+          "homeAmericanOdds": -135,
+          "awayAmericanOdds": 119
+        }
+      ]
+    },
+    {
+      "date": "2026-03-07",
+      "games": [
+        {
+          "gameId": 2025020990,
+          "date": "2026-03-07",
+          "homeTeam": "BOS",
+          "awayTeam": "WSH",
+          "homeWinProb": 0.632,
+          "homeAmericanOdds": -187,
+          "awayAmericanOdds": 164
+        },
+        {
+          "gameId": 2025020991,
+          "date": "2026-03-07",
+          "homeTeam": "NJD",
+          "awayTeam": "NYR",
+          "homeWinProb": 0.546,
+          "homeAmericanOdds": -129,
+          "awayAmericanOdds": 114
+        },
+        {
+          "gameId": 2025020992,
+          "date": "2026-03-07",
+          "homeTeam": "BUF",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.632,
+          "homeAmericanOdds": -187,
+          "awayAmericanOdds": 164
+        },
+        {
+          "gameId": 2025020993,
+          "date": "2026-03-07",
+          "homeTeam": "PIT",
+          "awayTeam": "PHI",
+          "homeWinProb": 0.602,
+          "homeAmericanOdds": -163,
+          "awayAmericanOdds": 144
+        },
+        {
+          "gameId": 2025020994,
+          "date": "2026-03-07",
+          "homeTeam": "TOR",
+          "awayTeam": "TBL",
+          "homeWinProb": 0.538,
+          "homeAmericanOdds": -124,
+          "awayAmericanOdds": 110
+        },
+        {
+          "gameId": 2025020995,
+          "date": "2026-03-07",
+          "homeTeam": "CBJ",
+          "awayTeam": "UTA",
+          "homeWinProb": 0.624,
+          "homeAmericanOdds": -180,
+          "awayAmericanOdds": 158
+        },
+        {
+          "gameId": 2025020996,
+          "date": "2026-03-07",
+          "homeTeam": "WPG",
+          "awayTeam": "VAN",
+          "homeWinProb": 0.639,
+          "homeAmericanOdds": -192,
+          "awayAmericanOdds": 169
+        },
+        {
+          "gameId": 2025020997,
+          "date": "2026-03-07",
+          "homeTeam": "LAK",
+          "awayTeam": "MTL",
+          "homeWinProb": 0.572,
+          "homeAmericanOdds": -144,
+          "awayAmericanOdds": 127
+        },
+        {
+          "gameId": 2025020998,
+          "date": "2026-03-07",
+          "homeTeam": "CGY",
+          "awayTeam": "CAR",
+          "homeWinProb": 0.371,
+          "homeAmericanOdds": 162,
+          "awayAmericanOdds": -184
+        },
+        {
+          "gameId": 2025020999,
+          "date": "2026-03-07",
+          "homeTeam": "SJS",
+          "awayTeam": "NYI",
+          "homeWinProb": 0.417,
+          "homeAmericanOdds": 133,
+          "awayAmericanOdds": -150
+        },
+        {
+          "gameId": 2025021000,
+          "date": "2026-03-07",
+          "homeTeam": "SEA",
+          "awayTeam": "OTT",
+          "homeWinProb": 0.435,
+          "homeAmericanOdds": 123,
+          "awayAmericanOdds": -139
+        }
+      ]
+    },
+    {
+      "date": "2026-03-08",
+      "games": [
+        {
+          "gameId": 2025021001,
+          "date": "2026-03-08",
+          "homeTeam": "COL",
+          "awayTeam": "MIN",
+          "homeWinProb": 0.488,
+          "homeAmericanOdds": -101,
+          "awayAmericanOdds": -112
+        },
+        {
+          "gameId": 2025021002,
+          "date": "2026-03-08",
+          "homeTeam": "PIT",
+          "awayTeam": "BOS",
+          "homeWinProb": 0.453,
+          "homeAmericanOdds": 114,
+          "awayAmericanOdds": -129
+        },
+        {
+          "gameId": 2025021003,
+          "date": "2026-03-08",
+          "homeTeam": "BUF",
+          "awayTeam": "TBL",
+          "homeWinProb": 0.406,
+          "homeAmericanOdds": 139,
+          "awayAmericanOdds": -158
+        },
+        {
+          "gameId": 2025021004,
+          "date": "2026-03-08",
+          "homeTeam": "DAL",
+          "awayTeam": "CHI",
+          "homeWinProb": 0.499,
+          "homeAmericanOdds": -106,
+          "awayAmericanOdds": -107
+        },
+        {
+          "gameId": 2025021005,
+          "date": "2026-03-08",
+          "homeTeam": "NJD",
+          "awayTeam": "DET",
+          "homeWinProb": 0.564,
+          "homeAmericanOdds": -139,
+          "awayAmericanOdds": 123
+        },
+        {
+          "gameId": 2025021006,
+          "date": "2026-03-08",
+          "homeTeam": "ANA",
+          "awayTeam": "STL",
+          "homeWinProb": 0.675,
+          "homeAmericanOdds": -228,
+          "awayAmericanOdds": 198
+        },
+        {
+          "gameId": 2025021007,
+          "date": "2026-03-08",
+          "homeTeam": "VGK",
+          "awayTeam": "EDM",
+          "homeWinProb": 0.434,
+          "homeAmericanOdds": 124,
+          "awayAmericanOdds": -140
+        }
+      ]
+    },
+    {
+      "date": "2026-03-09",
+      "games": [
+        {
+          "gameId": 2025020828,
+          "date": "2026-03-09",
+          "homeTeam": "CBJ",
+          "awayTeam": "LAK",
+          "homeWinProb": 0.644,
+          "homeAmericanOdds": -197,
+          "awayAmericanOdds": 172
+        },
+        {
+          "gameId": 2025021008,
+          "date": "2026-03-09",
+          "homeTeam": "PHI",
+          "awayTeam": "NYR",
+          "homeWinProb": 0.472,
+          "homeAmericanOdds": 106,
+          "awayAmericanOdds": -119
+        },
+        {
+          "gameId": 2025021009,
+          "date": "2026-03-09",
+          "homeTeam": "WSH",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.613,
+          "homeAmericanOdds": -171,
+          "awayAmericanOdds": 151
+        },
+        {
+          "gameId": 2025021010,
+          "date": "2026-03-09",
+          "homeTeam": "CHI",
+          "awayTeam": "UTA",
+          "homeWinProb": 0.566,
+          "homeAmericanOdds": -140,
+          "awayAmericanOdds": 124
+        },
+        {
+          "gameId": 2025021011,
+          "date": "2026-03-09",
+          "homeTeam": "VAN",
+          "awayTeam": "OTT",
+          "homeWinProb": 0.372,
+          "homeAmericanOdds": 161,
+          "awayAmericanOdds": -183
+        }
+      ]
+    },
+    {
+      "date": "2026-03-10",
+      "games": [
+        {
+          "gameId": 2025021012,
+          "date": "2026-03-10",
+          "homeTeam": "BOS",
+          "awayTeam": "LAK",
+          "homeWinProb": 0.636,
+          "homeAmericanOdds": -190,
+          "awayAmericanOdds": 167
+        },
+        {
+          "gameId": 2025021013,
+          "date": "2026-03-10",
+          "homeTeam": "BUF",
+          "awayTeam": "SJS",
+          "homeWinProb": 0.554,
+          "homeAmericanOdds": -133,
+          "awayAmericanOdds": 117
+        },
+        {
+          "gameId": 2025021014,
+          "date": "2026-03-10",
+          "homeTeam": "MTL",
+          "awayTeam": "TOR",
+          "homeWinProb": 0.575,
+          "homeAmericanOdds": -145,
+          "awayAmericanOdds": 128
+        },
+        {
+          "gameId": 2025021015,
+          "date": "2026-03-10",
+          "homeTeam": "TBL",
+          "awayTeam": "CBJ",
+          "homeWinProb": 0.457,
+          "homeAmericanOdds": 112,
+          "awayAmericanOdds": -127
+        },
+        {
+          "gameId": 2025021016,
+          "date": "2026-03-10",
+          "homeTeam": "FLA",
+          "awayTeam": "DET",
+          "homeWinProb": 0.409,
+          "homeAmericanOdds": 137,
+          "awayAmericanOdds": -156
+        },
+        {
+          "gameId": 2025021017,
+          "date": "2026-03-10",
+          "homeTeam": "NYR",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.41,
+          "homeAmericanOdds": 137,
+          "awayAmericanOdds": -155
+        },
+        {
+          "gameId": 2025021018,
+          "date": "2026-03-10",
+          "homeTeam": "CAR",
+          "awayTeam": "PIT",
+          "homeWinProb": 0.451,
+          "homeAmericanOdds": 115,
+          "awayAmericanOdds": -130
+        },
+        {
+          "gameId": 2025021019,
+          "date": "2026-03-10",
+          "homeTeam": "STL",
+          "awayTeam": "NYI",
+          "homeWinProb": 0.54,
+          "homeAmericanOdds": -125,
+          "awayAmericanOdds": 111
+        },
+        {
+          "gameId": 2025021020,
+          "date": "2026-03-10",
+          "homeTeam": "DAL",
+          "awayTeam": "VGK",
+          "homeWinProb": 0.642,
+          "homeAmericanOdds": -195,
+          "awayAmericanOdds": 171
+        },
+        {
+          "gameId": 2025021021,
+          "date": "2026-03-10",
+          "homeTeam": "MIN",
+          "awayTeam": "UTA",
+          "homeWinProb": 0.474,
+          "homeAmericanOdds": 105,
+          "awayAmericanOdds": -118
+        },
+        {
+          "gameId": 2025021022,
+          "date": "2026-03-10",
+          "homeTeam": "WPG",
+          "awayTeam": "ANA",
+          "homeWinProb": 0.395,
+          "homeAmericanOdds": 146,
+          "awayAmericanOdds": -165
+        },
+        {
+          "gameId": 2025021023,
+          "date": "2026-03-10",
+          "homeTeam": "COL",
+          "awayTeam": "EDM",
+          "homeWinProb": 0.613,
+          "homeAmericanOdds": -171,
+          "awayAmericanOdds": 151
+        },
+        {
+          "gameId": 2025021024,
+          "date": "2026-03-10",
+          "homeTeam": "SEA",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.615,
+          "homeAmericanOdds": -173,
+          "awayAmericanOdds": 152
+        }
+      ]
+    },
+    {
+      "date": "2026-03-11",
+      "games": [
+        {
+          "gameId": 2025021025,
+          "date": "2026-03-11",
+          "homeTeam": "OTT",
+          "awayTeam": "MTL",
+          "homeWinProb": 0.48,
+          "homeAmericanOdds": 102,
+          "awayAmericanOdds": -115
+        },
+        {
+          "gameId": 2025021026,
+          "date": "2026-03-11",
+          "homeTeam": "PHI",
+          "awayTeam": "WSH",
+          "homeWinProb": 0.589,
+          "homeAmericanOdds": -154,
+          "awayAmericanOdds": 136
+        }
+      ]
+    },
+    {
+      "date": "2026-03-12",
+      "games": [
+        {
+          "gameId": 2025021027,
+          "date": "2026-03-12",
+          "homeTeam": "BOS",
+          "awayTeam": "SJS",
+          "homeWinProb": 0.483,
+          "homeAmericanOdds": 101,
+          "awayAmericanOdds": -114
+        },
+        {
+          "gameId": 2025021028,
+          "date": "2026-03-12",
+          "homeTeam": "BUF",
+          "awayTeam": "WSH",
+          "homeWinProb": 0.623,
+          "homeAmericanOdds": -179,
+          "awayAmericanOdds": 158
+        },
+        {
+          "gameId": 2025021029,
+          "date": "2026-03-12",
+          "homeTeam": "TOR",
+          "awayTeam": "ANA",
+          "homeWinProb": 0.489,
+          "homeAmericanOdds": -101,
+          "awayAmericanOdds": -111
+        },
+        {
+          "gameId": 2025021030,
+          "date": "2026-03-12",
+          "homeTeam": "TBL",
+          "awayTeam": "DET",
+          "homeWinProb": 0.558,
+          "homeAmericanOdds": -135,
+          "awayAmericanOdds": 120
+        },
+        {
+          "gameId": 2025021031,
+          "date": "2026-03-12",
+          "homeTeam": "FLA",
+          "awayTeam": "CBJ",
+          "homeWinProb": 0.548,
+          "homeAmericanOdds": -130,
+          "awayAmericanOdds": 115
+        },
+        {
+          "gameId": 2025021032,
+          "date": "2026-03-12",
+          "homeTeam": "NJD",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.596,
+          "homeAmericanOdds": -159,
+          "awayAmericanOdds": 140
+        },
+        {
+          "gameId": 2025021033,
+          "date": "2026-03-12",
+          "homeTeam": "CAR",
+          "awayTeam": "STL",
+          "homeWinProb": 0.544,
+          "homeAmericanOdds": -127,
+          "awayAmericanOdds": 113
+        },
+        {
+          "gameId": 2025021034,
+          "date": "2026-03-12",
+          "homeTeam": "DAL",
+          "awayTeam": "EDM",
+          "homeWinProb": 0.636,
+          "homeAmericanOdds": -190,
+          "awayAmericanOdds": 167
+        },
+        {
+          "gameId": 2025021035,
+          "date": "2026-03-12",
+          "homeTeam": "MIN",
+          "awayTeam": "PHI",
+          "homeWinProb": 0.501,
+          "homeAmericanOdds": -107,
+          "awayAmericanOdds": -106
+        },
+        {
+          "gameId": 2025021036,
+          "date": "2026-03-12",
+          "homeTeam": "WPG",
+          "awayTeam": "NYR",
+          "homeWinProb": 0.545,
+          "homeAmericanOdds": -128,
+          "awayAmericanOdds": 113
+        },
+        {
+          "gameId": 2025021037,
+          "date": "2026-03-12",
+          "homeTeam": "UTA",
+          "awayTeam": "CHI",
+          "homeWinProb": 0.474,
+          "homeAmericanOdds": 105,
+          "awayAmericanOdds": -118
+        },
+        {
+          "gameId": 2025021038,
+          "date": "2026-03-12",
+          "homeTeam": "VAN",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.472,
+          "homeAmericanOdds": 106,
+          "awayAmericanOdds": -119
+        },
+        {
+          "gameId": 2025021039,
+          "date": "2026-03-12",
+          "homeTeam": "VGK",
+          "awayTeam": "PIT",
+          "homeWinProb": 0.474,
+          "homeAmericanOdds": 105,
+          "awayAmericanOdds": -118
+        },
+        {
+          "gameId": 2025021040,
+          "date": "2026-03-12",
+          "homeTeam": "SEA",
+          "awayTeam": "COL",
+          "homeWinProb": 0.428,
+          "homeAmericanOdds": 127,
+          "awayAmericanOdds": -143
+        }
+      ]
+    },
+    {
+      "date": "2026-03-13",
+      "games": [
+        {
+          "gameId": 2025021041,
+          "date": "2026-03-13",
+          "homeTeam": "NYI",
+          "awayTeam": "LAK",
+          "homeWinProb": 0.536,
+          "homeAmericanOdds": -123,
+          "awayAmericanOdds": 109
+        },
+        {
+          "gameId": 2025021042,
+          "date": "2026-03-13",
+          "homeTeam": "STL",
+          "awayTeam": "EDM",
+          "homeWinProb": 0.467,
+          "homeAmericanOdds": 108,
+          "awayAmericanOdds": -122
+        }
+      ]
+    },
+    {
+      "date": "2026-03-14",
+      "games": [
+        {
+          "gameId": 2025021043,
+          "date": "2026-03-14",
+          "homeTeam": "OTT",
+          "awayTeam": "ANA",
+          "homeWinProb": 0.584,
+          "homeAmericanOdds": -151,
+          "awayAmericanOdds": 133
+        },
+        {
+          "gameId": 2025021044,
+          "date": "2026-03-14",
+          "homeTeam": "WSH",
+          "awayTeam": "BOS",
+          "homeWinProb": 0.408,
+          "homeAmericanOdds": 138,
+          "awayAmericanOdds": -156
+        },
+        {
+          "gameId": 2025021045,
+          "date": "2026-03-14",
+          "homeTeam": "WPG",
+          "awayTeam": "COL",
+          "homeWinProb": 0.404,
+          "homeAmericanOdds": 140,
+          "awayAmericanOdds": -159
+        },
+        {
+          "gameId": 2025021046,
+          "date": "2026-03-14",
+          "homeTeam": "MIN",
+          "awayTeam": "NYR",
+          "homeWinProb": 0.693,
+          "homeAmericanOdds": -249,
+          "awayAmericanOdds": 216
+        },
+        {
+          "gameId": 2025021047,
+          "date": "2026-03-14",
+          "homeTeam": "BUF",
+          "awayTeam": "TOR",
+          "homeWinProb": 0.574,
+          "homeAmericanOdds": -145,
+          "awayAmericanOdds": 128
+        },
+        {
+          "gameId": 2025021048,
+          "date": "2026-03-14",
+          "homeTeam": "MTL",
+          "awayTeam": "SJS",
           "homeWinProb": 0.554,
           "homeAmericanOdds": -133,
           "awayAmericanOdds": 118
+        },
+        {
+          "gameId": 2025021049,
+          "date": "2026-03-14",
+          "homeTeam": "TBL",
+          "awayTeam": "CAR",
+          "homeWinProb": 0.601,
+          "homeAmericanOdds": -163,
+          "awayAmericanOdds": 143
+        },
+        {
+          "gameId": 2025021050,
+          "date": "2026-03-14",
+          "homeTeam": "NJD",
+          "awayTeam": "LAK",
+          "homeWinProb": 0.587,
+          "homeAmericanOdds": -153,
+          "awayAmericanOdds": 135
+        },
+        {
+          "gameId": 2025021051,
+          "date": "2026-03-14",
+          "homeTeam": "NYI",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.465,
+          "homeAmericanOdds": 109,
+          "awayAmericanOdds": -123
+        },
+        {
+          "gameId": 2025021052,
+          "date": "2026-03-14",
+          "homeTeam": "PHI",
+          "awayTeam": "CBJ",
+          "homeWinProb": 0.389,
+          "homeAmericanOdds": 149,
+          "awayAmericanOdds": -170
+        },
+        {
+          "gameId": 2025021053,
+          "date": "2026-03-14",
+          "homeTeam": "DAL",
+          "awayTeam": "DET",
+          "homeWinProb": 0.462,
+          "homeAmericanOdds": 110,
+          "awayAmericanOdds": -124
+        },
+        {
+          "gameId": 2025021054,
+          "date": "2026-03-14",
+          "homeTeam": "UTA",
+          "awayTeam": "PIT",
+          "homeWinProb": 0.571,
+          "homeAmericanOdds": -143,
+          "awayAmericanOdds": 126
+        },
+        {
+          "gameId": 2025021055,
+          "date": "2026-03-14",
+          "homeTeam": "VAN",
+          "awayTeam": "SEA",
+          "homeWinProb": 0.457,
+          "homeAmericanOdds": 112,
+          "awayAmericanOdds": -127
+        },
+        {
+          "gameId": 2025021056,
+          "date": "2026-03-14",
+          "homeTeam": "VGK",
+          "awayTeam": "CHI",
+          "homeWinProb": 0.537,
+          "homeAmericanOdds": -124,
+          "awayAmericanOdds": 110
+        }
+      ]
+    },
+    {
+      "date": "2026-03-15",
+      "games": [
+        {
+          "gameId": 2025021057,
+          "date": "2026-03-15",
+          "homeTeam": "WPG",
+          "awayTeam": "STL",
+          "homeWinProb": 0.549,
+          "homeAmericanOdds": -130,
+          "awayAmericanOdds": 115
+        },
+        {
+          "gameId": 2025021058,
+          "date": "2026-03-15",
+          "homeTeam": "OTT",
+          "awayTeam": "SJS",
+          "homeWinProb": 0.621,
+          "homeAmericanOdds": -178,
+          "awayAmericanOdds": 156
+        },
+        {
+          "gameId": 2025021059,
+          "date": "2026-03-15",
+          "homeTeam": "MTL",
+          "awayTeam": "ANA",
+          "homeWinProb": 0.517,
+          "homeAmericanOdds": -114,
+          "awayAmericanOdds": 101
+        },
+        {
+          "gameId": 2025021060,
+          "date": "2026-03-15",
+          "homeTeam": "MIN",
+          "awayTeam": "TOR",
+          "homeWinProb": 0.654,
+          "homeAmericanOdds": -207,
+          "awayAmericanOdds": 181
+        },
+        {
+          "gameId": 2025021061,
+          "date": "2026-03-15",
+          "homeTeam": "EDM",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.534,
+          "homeAmericanOdds": -122,
+          "awayAmericanOdds": 108
+        },
+        {
+          "gameId": 2025021062,
+          "date": "2026-03-15",
+          "homeTeam": "SEA",
+          "awayTeam": "FLA",
+          "homeWinProb": 0.538,
+          "homeAmericanOdds": -124,
+          "awayAmericanOdds": 110
+        }
+      ]
+    },
+    {
+      "date": "2026-03-16",
+      "games": [
+        {
+          "gameId": 2025021063,
+          "date": "2026-03-16",
+          "homeTeam": "DET",
+          "awayTeam": "CGY",
+          "homeWinProb": 0.632,
+          "homeAmericanOdds": -186,
+          "awayAmericanOdds": 164
+        },
+        {
+          "gameId": 2025021064,
+          "date": "2026-03-16",
+          "homeTeam": "NJD",
+          "awayTeam": "BOS",
+          "homeWinProb": 0.391,
+          "homeAmericanOdds": 148,
+          "awayAmericanOdds": -168
+        },
+        {
+          "gameId": 2025021065,
+          "date": "2026-03-16",
+          "homeTeam": "NYR",
+          "awayTeam": "LAK",
+          "homeWinProb": 0.401,
+          "homeAmericanOdds": 142,
+          "awayAmericanOdds": -161
+        },
+        {
+          "gameId": 2025021066,
+          "date": "2026-03-16",
+          "homeTeam": "DAL",
+          "awayTeam": "UTA",
+          "homeWinProb": 0.572,
+          "homeAmericanOdds": -143,
+          "awayAmericanOdds": 127
+        },
+        {
+          "gameId": 2025021067,
+          "date": "2026-03-16",
+          "homeTeam": "COL",
+          "awayTeam": "PIT",
+          "homeWinProb": 0.493,
+          "homeAmericanOdds": -103,
+          "awayAmericanOdds": -109
+        }
+      ]
+    },
+    {
+      "date": "2026-03-17",
+      "games": [
+        {
+          "gameId": 2025021068,
+          "date": "2026-03-17",
+          "homeTeam": "TOR",
+          "awayTeam": "NYI",
+          "homeWinProb": 0.423,
+          "homeAmericanOdds": 129,
+          "awayAmericanOdds": -146
+        },
+        {
+          "gameId": 2025021069,
+          "date": "2026-03-17",
+          "homeTeam": "MTL",
+          "awayTeam": "BOS",
+          "homeWinProb": 0.485,
+          "homeAmericanOdds": 100,
+          "awayAmericanOdds": -113
+        },
+        {
+          "gameId": 2025021070,
+          "date": "2026-03-17",
+          "homeTeam": "CBJ",
+          "awayTeam": "CAR",
+          "homeWinProb": 0.424,
+          "homeAmericanOdds": 129,
+          "awayAmericanOdds": -146
+        },
+        {
+          "gameId": 2025021072,
+          "date": "2026-03-17",
+          "homeTeam": "CHI",
+          "awayTeam": "MIN",
+          "homeWinProb": 0.372,
+          "homeAmericanOdds": 161,
+          "awayAmericanOdds": -183
+        },
+        {
+          "gameId": 2025021071,
+          "date": "2026-03-17",
+          "homeTeam": "WPG",
+          "awayTeam": "NSH",
+          "homeWinProb": 0.591,
+          "homeAmericanOdds": -156,
+          "awayAmericanOdds": 137
+        },
+        {
+          "gameId": 2025021073,
+          "date": "2026-03-17",
+          "homeTeam": "EDM",
+          "awayTeam": "SJS",
+          "homeWinProb": 0.615,
+          "homeAmericanOdds": -173,
+          "awayAmericanOdds": 152
+        },
+        {
+          "gameId": 2025021074,
+          "date": "2026-03-17",
+          "homeTeam": "VAN",
+          "awayTeam": "FLA",
+          "homeWinProb": 0.395,
+          "homeAmericanOdds": 146,
+          "awayAmericanOdds": -165
+        },
+        {
+          "gameId": 2025021075,
+          "date": "2026-03-17",
+          "homeTeam": "VGK",
+          "awayTeam": "BUF",
+          "homeWinProb": 0.496,
+          "homeAmericanOdds": -104,
+          "awayAmericanOdds": -108
+        },
+        {
+          "gameId": 2025021076,
+          "date": "2026-03-17",
+          "homeTeam": "SEA",
+          "awayTeam": "TBL",
+          "homeWinProb": 0.469,
+          "homeAmericanOdds": 107,
+          "awayAmericanOdds": -121
         }
       ]
     }

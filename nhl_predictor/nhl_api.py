@@ -1,42 +1,257 @@
-from datetime import date, timedelta
+# FIXED: correct nhl_api module (no team_stats import)
+""" 
+Fetch NHL data from public APIs. No API key required (optional NHL_API_KEY in env).
+- Schedule: api-web.nhle.com
+- Standings: api-web.nhle.com (includes last-10 and season W-L)
+- Team stats (PP/PK, shots/game): api.nhle.com/stats
+- Goalie save %: api-web.nhle.com player landing
+- Head-to-head: api-web.nhle.com club-schedule-season
+"""
 
-from . import model, nhl_api, team_stats
+from __future__ import annotations
+
+import json
+import ssl
+import urllib.error
+import urllib.parse
+import urllib.request
+from datetime import date, datetime, timedelta
+
+import certifi
+
+from . import config
+
+_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
 
-def run_predictions(for_date: date | None = None) -> dict:
-    """Run predictions for the given date (default tomorrow)."""
-    if for_date is None:
-        for_date = date.today() + timedelta(days=1)
+def _iso_utc_to_local_label(start_time_utc: str | None) -> str:
+    if not start_time_utc:
+        return "TBD"
+    s = start_time_utc.replace("Z", "+00:00")
+    dt = datetime.fromisoformat(s).astimezone()
+    try:
+        return dt.strftime("%-I:%M %p")
+    except ValueError:
+        return dt.strftime("%I:%M %p").lstrip("0")
 
-    games = nhl_api.get_schedule(for_date)
-    if not games:
-        return {"error": f"No games found for {for_date.isoformat()}"}
 
-    payload_date = for_date.isoformat()
-    payload = {"date": payload_date, "games": []}
+def _get(url: str):
+    headers = {"User-Agent": "NHL-Predictor/1.0"}
+    if getattr(config, "NHL_API_KEY", None):
+        headers["Authorization"] = f"Bearer {config.NHL_API_KEY}"
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=15, context=_SSL_CONTEXT) as resp:
+        return json.loads(resp.read().decode())
 
-    standings = nhl_api.get_standings()
-    stats = nhl_api.get_team_stats_season()
 
-    for game in games:
-        home = game["homeAbbrev"]
-        away = game["awayAbbrev"]
-        if not home or not away:
+def get_schedule(for_date: date) -> list[dict]:
+    url = f"{config.NHL_WEB_BASE}/schedule/{for_date.isoformat()}"
+    data = _get(url)
+
+    games: list[dict] = []
+    target_date = for_date.isoformat()
+
+    game_week = data.get("gameWeek") if isinstance(data, dict) else []
+    for week in game_week or []:
+        for g in week.get("games", []):
+            raw_game_date = g.get("gameDate") or g.get("date") or week.get("date")
+
+            state = (g.get("gameState") or "").upper()
+            if state in ("OFF", "FINAL", "LIVE", "CRIT", "IN_PROGRESS"):
+                continue
+
+            home = g.get("homeTeam") or {}
+            away = g.get("awayTeam") or {}
+
+            start_time_utc = (
+                g.get("startTimeUTC")
+                or g.get("startTimeUtc")
+                or g.get("startTime")
+                or g.get("gameDate")
+                or (g.get("startTime") or {}).get("utc")
+            )
+
+            game_date = None
+            if isinstance(raw_game_date, str) and len(raw_game_date) >= 10:
+                game_date = raw_game_date[:10]
+            if not game_date and isinstance(start_time_utc, str) and "T" in start_time_utc:
+                game_date = start_time_utc.split("T", 1)[0]
+
+            if game_date != target_date:
+                continue
+
+            games.append(
+                {
+                    "id": g["id"],
+                    "date": game_date,
+                    "homeAbbrev": home.get("abbrev") or (home.get("teamAbbrev") or {}).get("default"),
+                    "awayAbbrev": away.get("abbrev") or (away.get("teamAbbrev") or {}).get("default"),
+                    "homeId": home.get("id"),
+                    "awayId": away.get("id"),
+                    "startTimeUTC": start_time_utc,
+                    "gameTimeLocal": _iso_utc_to_local_label(start_time_utc),
+                }
+            )
+
+    return games
+
+
+def get_schedule_range(start: date, end: date) -> list[dict]:
+    if end < start:
+        start, end = end, start
+
+    all_games: list[dict] = []
+    d = start
+    while d <= end:
+        all_games.extend(get_schedule(d))
+        d += timedelta(days=1)
+
+    seen: set[int] = set()
+    deduped: list[dict] = []
+    for g in all_games:
+        gid = g.get("id")
+        if isinstance(gid, int) and gid in seen:
             continue
+        if isinstance(gid, int):
+            seen.add(gid)
+        deduped.append(g)
+    return deduped
 
-        home_stats = stats.get(home, {})
-        away_stats = stats.get(away, {})
-        home_stand = standings.get(home, {})
-        away_stand = standings.get(away, {})
 
-        prediction = model.predict_game(home, away, home_stats, away_stats, home_stand, away_stand)
-        payload["games"].append({
-            "gameId": game["id"],
-            "home": home,
-            "away": away,
-            "startTimeUTC": game["startTimeUTC"],
-            "gameTimeLocal": game["gameTimeLocal"],
-            "prediction": prediction,
-        })
+def get_standings() -> dict:
+    url = f"{config.NHL_WEB_BASE}/standings/now"
+    data = _get(url)
+    by_abbrev = {}
+    for row in data.get("standings", []):
+        abbrev = (row.get("teamAbbrev") or {}).get("default")
+        if not abbrev:
+            continue
+        gp = row.get("gamesPlayed") or 1
+        l10gp = row.get("l10GamesPlayed") or 10
+        by_abbrev[abbrev] = {
+            "wins": row.get("wins", 0),
+            "losses": row.get("losses", 0),
+            "otLosses": row.get("otLosses", 0),
+            "gamesPlayed": gp,
+            "seasonWinPct": (row.get("wins", 0) + 0.5 * row.get("otLosses", 0)) / gp if gp else 0.5,
+            "l10Wins": row.get("l10Wins", 0),
+            "l10Losses": row.get("l10Losses", 0),
+            "l10OtLosses": row.get("l10OtLosses", 0),
+            "l10GamesPlayed": l10gp,
+            "l10WinPct": (row.get("l10Wins", 0) + 0.5 * row.get("l10OtLosses", 0)) / l10gp if l10gp else 0.5,
+        }
+    return by_abbrev
 
-    return payload
+
+def get_team_stats_season() -> dict:
+    season_id = config.current_season_id()
+    url = f"{config.NHL_STATS_BASE}/team/summary?limit=50&sort=gamesPlayed&order=desc&cayenneExp=gameTypeId=2%20and%20seasonId={season_id}"
+    data = _get(url)
+
+    standings_url = f"{config.NHL_WEB_BASE}/standings/now"
+    stand_data = _get(standings_url)
+    name_to_abbrev = {}
+    for row in stand_data.get("standings", []):
+        name = (row.get("teamName") or {}).get("default", "")
+        abbrev = (row.get("teamAbbrev") or {}).get("default", "")
+        if name and abbrev:
+            name_to_abbrev[name] = abbrev
+
+    by_abbrev = {}
+    for row in data.get("data", []):
+        full = row.get("teamFullName", "")
+        abbrev = name_to_abbrev.get(full)
+        if not abbrev:
+            continue
+        pp = row.get("powerPlayPct") or 0
+        pk = row.get("penaltyKillPct") or 0
+        by_abbrev[abbrev] = {
+            "powerPlayPct": pp,
+            "penaltyKillPct": pk,
+            "specialTeamsAvg": (pp + pk) / 2.0,
+        }
+    return by_abbrev
+
+
+_club_schedule_cache: dict[str, list[dict]] = {}
+
+
+def get_club_schedule_season(team_abbrev: str) -> list[dict]:
+    key = team_abbrev.upper()
+    if key in _club_schedule_cache:
+        return _club_schedule_cache[key]
+    url = f"{config.NHL_WEB_BASE}/club-schedule-season/{key}/now"
+    try:
+        data = _get(url)
+    except urllib.error.HTTPError:
+        _club_schedule_cache[key] = []
+        return []
+    games = data.get("games") or []
+    _club_schedule_cache[key] = games
+    return games
+
+
+def get_h2h_win_pct(home_abbrev: str, away_abbrev: str) -> tuple[float, int]:
+    games = get_club_schedule_season(home_abbrev)
+    season_id = config.current_season_id()
+    home_wins = 0
+    total = 0
+    for g in games:
+        if g.get("gameType") != 2:
+            continue
+        if g.get("season") != season_id:
+            continue
+        state = (g.get("gameState") or "").upper()
+        if state not in ("OFF", "FINAL"):
+            continue
+        h = (g.get("homeTeam") or {}).get("abbrev") or ""
+        a = (g.get("awayTeam") or {}).get("abbrev") or ""
+        if not (h and a):
+            continue
+        if (h == home_abbrev and a == away_abbrev) or (h == away_abbrev and a == home_abbrev):
+            h_score = (g.get("homeTeam") or {}).get("score")
+            a_score = (g.get("awayTeam") or {}).get("score")
+            if h_score is None or a_score is None:
+                continue
+            total += 1
+            if h == home_abbrev:
+                if h_score > a_score:
+                    home_wins += 1
+            else:
+                if a_score > h_score:
+                    home_wins += 1
+    if total == 0:
+        return 0.5, 0
+    return home_wins / total, total
+
+
+def get_goalie_save_pct(player_id: int) -> float | None:
+    url = f"{config.NHL_WEB_BASE}/player/{player_id}/landing"
+    try:
+        data = _get(url)
+    except urllib.error.HTTPError:
+        return None
+    featured = (data.get("featuredStats") or {}).get("regularSeason") or {}
+    sub = featured.get("subSeason") or {}
+    sv = sub.get("savePctg")
+    return float(sv) if sv is not None else None
+
+
+def search_player_id(name: str) -> int | None:
+    q = urllib.parse.quote(name.strip())
+    url = f"{config.NHL_SEARCH_BASE}?culture=en-us&limit=5&q={q}"
+    try:
+        data = _get(url)
+    except urllib.error.HTTPError:
+        return None
+
+    players = data.get("data") if isinstance(data, dict) else data
+    if not isinstance(players, list):
+        return None
+
+    for p in players[:5]:
+        if isinstance(p, dict):
+            pid = p.get("playerId")
+            if pid:
+                return pid
+    return None
