@@ -1,0 +1,133 @@
+"""
+Fetch NHL data from public APIs. No API key required.
+- Schedule: api-web.nhle.com
+- Standings: api-web.nhle.com (includes last-10 and season W-L)
+- Team stats (PP/PK): api.nhle.com/stats
+- Goalie save %: api-web.nhle.com player landing
+"""
+
+import json
+import urllib.request
+import urllib.error
+from datetime import date, timedelta
+
+from . import config
+
+
+def _get(url: str) -> dict:
+    req = urllib.request.Request(url, headers={"User-Agent": "NHL-Predictor/1.0"})
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        return json.loads(resp.read().decode())
+
+
+def get_schedule(for_date: date) -> list[dict]:
+    """Return list of games for the given date. Each game has id, homeTeam, awayTeam, gameState."""
+    url = f"{config.NHL_WEB_BASE}/schedule/{for_date.isoformat()}"
+    data = _get(url)
+    games = []
+    for week in data.get("gameWeek", []):
+        if week.get("date") != for_date.isoformat():
+            continue
+        for g in week.get("games", []):
+            if g.get("gameState") != "FUT":
+                continue
+            # Normalize team keys (API sometimes uses abbrev, sometimes nested)
+            home = g.get("homeTeam") or {}
+            away = g.get("awayTeam") or {}
+            games.append({
+                "id": g["id"],
+                "date": week["date"],
+                "homeAbbrev": home.get("abbrev") or (home.get("teamAbbrev") or {}).get("default"),
+                "awayAbbrev": away.get("abbrev") or (away.get("teamAbbrev") or {}).get("default"),
+                "homeId": home.get("id"),
+                "awayId": away.get("id"),
+            })
+    return games
+
+
+def get_standings() -> dict:
+    """Return standings with last-10 and season W-L. Keyed by team abbrev."""
+    url = f"{config.NHL_WEB_BASE}/standings/now"
+    data = _get(url)
+    by_abbrev = {}
+    for row in data.get("standings", []):
+        abbrev = (row.get("teamAbbrev") or {}).get("default")
+        if not abbrev:
+            continue
+        gp = row.get("gamesPlayed") or 1
+        l10gp = row.get("l10GamesPlayed") or 10
+        by_abbrev[abbrev] = {
+            "wins": row.get("wins", 0),
+            "losses": row.get("losses", 0),
+            "otLosses": row.get("otLosses", 0),
+            "gamesPlayed": gp,
+            "seasonWinPct": (row.get("wins", 0) + 0.5 * row.get("otLosses", 0)) / gp if gp else 0.5,
+            "l10Wins": row.get("l10Wins", 0),
+            "l10Losses": row.get("l10Losses", 0),
+            "l10OtLosses": row.get("l10OtLosses", 0),
+            "l10GamesPlayed": l10gp,
+            "l10WinPct": (row.get("l10Wins", 0) + 0.5 * row.get("l10OtLosses", 0)) / l10gp if l10gp else 0.5,
+        }
+    return by_abbrev
+
+
+def get_team_stats_season() -> dict:
+    """Return team summary stats including powerPlayPct and penaltyKillPct. Keyed by team abbrev."""
+    season_id = config.current_season_id()
+    url = f"{config.NHL_STATS_BASE}/team/summary?limit=50&sort=gamesPlayed&order=desc&cayenneExp=gameTypeId=2%20and%20seasonId={season_id}"
+    data = _get(url)
+    # Build name -> abbrev from standings (teamName.default = "Colorado Avalanche", teamAbbrev.default = "COL")
+    standings_url = f"{config.NHL_WEB_BASE}/standings/now"
+    stand_data = _get(standings_url)
+    name_to_abbrev = {}
+    for row in stand_data.get("standings", []):
+        name = (row.get("teamName") or {}).get("default", "")
+        abbrev = (row.get("teamAbbrev") or {}).get("default", "")
+        if name and abbrev:
+            name_to_abbrev[name] = abbrev
+    by_abbrev = {}
+    for row in data.get("data", []):
+        full = row.get("teamFullName", "")
+        abbrev = name_to_abbrev.get(full)
+        if not abbrev:
+            continue
+        pp = row.get("powerPlayPct") or 0
+        pk = row.get("penaltyKillPct") or 0
+        by_abbrev[abbrev] = {
+            "powerPlayPct": pp,
+            "penaltyKillPct": pk,
+            "specialTeamsAvg": (pp + pk) / 2.0,
+        }
+    return by_abbrev
+
+
+def get_goalie_save_pct(player_id: int) -> float | None:
+    """Return current season save percentage for goalie by NHL player ID, or None."""
+    url = f"{config.NHL_WEB_BASE}/player/{player_id}/landing"
+    try:
+        data = _get(url)
+    except urllib.error.HTTPError:
+        return None
+    featured = (data.get("featuredStats") or {}).get("regularSeason") or {}
+    sub = featured.get("subSeason") or {}
+    sv = sub.get("savePctg")
+    if sv is not None:
+        return float(sv)
+    return None
+
+
+def search_player_id(name: str) -> int | None:
+    """Search NHL API by name; return first matching player id or None."""
+    q = urllib.parse.quote(name.strip())
+    url = f"{config.NHL_SEARCH_BASE}?culture=en-us&limit=5&q={q}"
+    try:
+        data = _get(url)
+    except urllib.error.HTTPError:
+        return None
+    for p in data.get("data", [])[:3]:
+        if p.get("position") == "G":
+            return p.get("playerId")
+    for p in data.get("data", [])[:5]:
+        if p.get("playerId"):
+            return p.get("playerId")
+    return None

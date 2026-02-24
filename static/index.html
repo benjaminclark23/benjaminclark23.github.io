@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>nhl-odds-predictor-project</title>
+
+  <style>
+    :root{
+      --bg0:#05070B;
+      --bg1:#070A12;
+      --panel:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.10);
+      --text:#ECF2FF;
+      --muted:rgba(236,242,255,.70);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% -10%, rgba(90,120,255,.16), transparent 60%),
+        radial-gradient(900px 500px at 85% 0%, rgba(0,255,200,.10), transparent 60%),
+        radial-gradient(900px 500px at 0% 100%, rgba(255,140,0,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to bottom, rgba(5,7,11,.88), rgba(5,7,11,.55));
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .wrap{
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 18px 18px 14px;
+    }
+
+    .brand{
+      display:flex; align-items:flex-end; gap:12px; flex-wrap:wrap;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 28px;
+      letter-spacing:.2px;
+      line-height:1;
+    }
+    .tag{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+
+    .controls{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    label{ color:var(--muted); font-size: 13px; }
+    input[type="date"]{
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      color:var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      outline:none;
+    }
+    button{
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: linear-gradient(135deg, rgba(90,120,255,.26), rgba(90,120,255,.08));
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 750;
+      letter-spacing:.2px;
+      transition: transform .08s ease, background .2s ease;
+    }
+    button:hover{ transform: translateY(-1px); background: linear-gradient(135deg, rgba(90,120,255,.32), rgba(90,120,255,.10)); }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .status{
+      margin-left:auto;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .content{
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .metaRow{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:12px; flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .metaRow .meta{
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .list{
+      display:grid;
+      gap: 16px;
+    }
+
+    /* Feature Match Card */
+    .match{
+      position:relative;
+      border-radius: var(--radius);
+      border: 1px solid var(--stroke);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* jersey-dot texture overlay */
+    .match::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,.10) 1px, transparent 2px);
+      background-size: 7px 7px;
+      opacity:.10;
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+
+    .matchTop{
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(0,0,0,.25);
+    }
+    .matchTop .time{
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .matchTop .gameid{
+      font-size: 12px;
+      color: rgba(255,255,255,.55);
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 220px;
+    }
+
+    .side{
+      position:relative;
+      padding: 18px 18px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .side.left{
+      border-right: 1px solid rgba(255,255,255,.12);
+    }
+
+    .teamRow{
+      display:flex; align-items:center; justify-content:space-between; gap: 12px;
+    }
+    .teamLeft{
+      display:flex; align-items:center; gap: 12px;
+      min-width: 0;
+    }
+    .logo{
+      width: 44px; height: 44px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+      opacity:.95;
+    }
+    .abbr{
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 1.0px;
+      line-height:1;
+      text-shadow: 0 10px 26px rgba(0,0,0,.40);
+    }
+    .badge{
+      font-size: 12px;
+      color: rgba(255,255,255,.80);
+      border: 1px solid rgba(255,255,255,.16);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      white-space:nowrap;
+    }
+
+    .oddsBlock{
+      margin-top: 2px;
+      display:flex; align-items:baseline; justify-content:space-between;
+      gap: 12px;
+    }
+    .oddsLabel{
+      font-size: 12px;
+      color: rgba(255,255,255,.78);
+    }
+    .oddsVal{
+      font-size: 52px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      line-height:1;
+      text-shadow: 0 12px 30px rgba(0,0,0,.45);
+    }
+
+    .sub{
+      display:flex; justify-content:space-between; gap: 10px; flex-wrap:wrap;
+      margin-top:auto;
+      color: rgba(255,255,255,.80);
+      font-size: 12px;
+    }
+
+    .barWrap{
+      width:100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.24);
+      border: 1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+      margin-top: 6px;
+    }
+    .bar{
+      height:100%;
+      width: 50%;
+      background: rgba(255,255,255,.78);
+      opacity:.85;
+    }
+
+    .footer{
+      display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+      padding: 12px 14px;
+      border-top: 1px solid var(--stroke);
+      background: rgba(0,0,0,.22);
+    }
+    .kpi{
+      display:flex; gap:8px; align-items:center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+    }
+    .kpi b{ color: var(--text); }
+
+    .error{
+      border: 1px solid rgba(255,120,120,.35);
+      background: rgba(255,120,120,.10);
+      padding: 14px;
+      border-radius: var(--radius);
+      color: rgba(255,230,230,.95);
+    }
+
+    @media (max-width: 820px){
+      .split{ grid-template-columns: 1fr; }
+      .side.left{ border-right:none; border-bottom: 1px solid rgba(255,255,255,.12); }
+      .oddsVal{ font-size: 46px; }
+      .abbr{ font-size: 30px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <h1>nhl-odds-predictor-project</h1>
+        <span class="tag">Feature cards • split matchup • dark theme</span>
+      </div>
+
+      <div class="controls">
+        <label for="date">Date</label>
+        <input id="date" type="date" />
+        <button id="btn">Get Games</button>
+        <span class="pill" id="pill">Ready</span>
+        <span class="status" id="status"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="metaRow">
+      <div class="meta" id="meta"></div>
+      <div class="meta">Scroll for matchups. Each card is away (left) vs home (right).</div>
+    </div>
+
+    <div class="list" id="out"></div>
+  </div>
+
+  <script>
+    const out = document.getElementById("out");
+    const statusEl = document.getElementById("status");
+    const metaEl = document.getElementById("meta");
+    const pillEl = document.getElementById("pill");
+    const dateEl = document.getElementById("date");
+
+    // Semi-accurate team primaries (good-enough v1)
+    const TEAM_COLORS = {
+      ANA:"#F47A38", ARI:"#8C2633", BOS:"#FFB81C", BUF:"#003087", CAR:"#CC0000",
+      CBJ:"#002654", CGY:"#C8102E", CHI:"#CF0A2C", COL:"#6F263D", DAL:"#006847",
+      DET:"#CE1126", EDM:"#041E42", FLA:"#C8102E", LAK:"#111111", MIN:"#154734",
+      MTL:"#AF1E2D", NJD:"#CE1126", NSH:"#FFB81C", NYI:"#00539B", NYR:"#0038A8",
+      OTT:"#C52032", PHI:"#F74902", PIT:"#FFB81C", SEA:"#001628", SJS:"#006D75",
+      STL:"#002F87", TBL:"#002868", TOR:"#00205B", UTA:"#111111", VAN:"#00205B",
+      VGK:"#B4975A", WPG:"#041E42", WSH:"#C8102E"
+    };
+
+    function colorFor(team){ return TEAM_COLORS[team] || "#3B82F6"; }
+
+    // NHL logo CDN pattern (light looks best on dark UI)
+    function logoUrl(team){
+      return `https://assets.nhle.com/logos/nhl/svg/${team}_light.svg`;
+    }
+
+    function fmtAmerican(x){
+      if (x === null || x === undefined) return "N/A";
+      const n = Number(x);
+      if (Number.isNaN(n)) return String(x);
+      return n > 0 ? `+${n}` : `${n}`;
+    }
+
+    function pct(p){
+      const n = Number(p);
+      if (!Number.isFinite(n)) return "N/A";
+      return (n * 100).toFixed(1) + "%";
+    }
+
+    function impliedProb(american){
+      const a = Number(american);
+      if (!Number.isFinite(a) || a === 0) return null;
+      if (a > 0) return 100 / (a + 100);
+      return (-a) / ((-a) + 100);
+    }
+
+    function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+    function sideGradient(team){
+      const c = colorFor(team);
+      return `
+        radial-gradient(900px 520px at 25% 8%, ${c}66, transparent 60%),
+        radial-gradient(700px 480px at 92% 92%, ${c}33, transparent 55%),
+        linear-gradient(135deg, rgba(0,0,0,.58), rgba(0,0,0,.18))
+      `;
+    }
+
+    function timeLabel(g){
+      return g.gameTimeLocal || "TBD";
+    }
+
+    function makeCard(g){
+      const away = g.awayTeam;
+      const home = g.homeTeam;
+
+      const homeProb = Number(g.homeWinProb);
+      const awayProb = Number.isFinite(homeProb) ? (1 - homeProb) : null;
+
+      const impHome = impliedProb(g.homeAmericanOdds);
+      const impAway = impliedProb(g.awayAmericanOdds);
+
+      const edgeHome = (Number.isFinite(homeProb) && impHome !== null) ? (homeProb - impHome) : null;
+      const edgeAway = (awayProb !== null && impAway !== null) ? (awayProb - impAway) : null;
+
+      let best = null;
+      if (edgeHome !== null || edgeAway !== null){
+        const eh = edgeHome ?? -999;
+        const ea = edgeAway ?? -999;
+        best = (eh >= ea) ? {team: home, side:"HOME", edge: eh} : {team: away, side:"AWAY", edge: ea};
+      }
+
+      const card = document.createElement("div");
+      card.className = "match";
+
+      const top = document.createElement("div");
+      top.className = "matchTop";
+      top.innerHTML = `
+        <div class="time">Start: <b style="color:var(--text)">${timeLabel(g)}</b></div>
+        <div class="gameid">Game ID: ${g.gameId ?? "—"}</div>
+      `;
+      card.appendChild(top);
+
+      const split = document.createElement("div");
+      split.className = "split";
+
+      const left = document.createElement("div");
+      left.className = "side left";
+      left.style.background = sideGradient(away);
+      left.innerHTML = `
+        <div class="teamRow">
+          <div class="teamLeft">
+            <img class="logo" src="${logoUrl(away)}" alt="${away} logo" onerror="this.style.display='none'"/>
+            <div class="abbr">${away}</div>
+          </div>
+          <div class="badge">AWAY</div>
+        </div>
+
+        <div class="oddsBlock">
+          <div class="oddsLabel">Odds</div>
+          <div class="oddsVal">${fmtAmerican(g.awayAmericanOdds)}</div>
+        </div>
+
+        <div style="color:rgba(255,255,255,.80);font-size:12px;">
+          Model win: <b>${awayProb === null ? "N/A" : pct(awayProb)}</b>
+        </div>
+        <div class="barWrap"><div class="bar" style="width:${awayProb === null ? 50 : clamp01(awayProb)*100}%;"></div></div>
+
+        <div class="sub">
+          <div>Implied: <b>${impAway === null ? "N/A" : pct(impAway)}</b></div>
+          <div>Edge: <b>${edgeAway === null ? "N/A" : (edgeAway*100).toFixed(1) + "%"}</b></div>
+        </div>
+      `;
+
+      const right = document.createElement("div");
+      right.className = "side right";
+      right.style.background = sideGradient(home);
+      right.innerHTML = `
+        <div class="teamRow">
+          <div class="teamLeft">
+            <img class="logo" src="${logoUrl(home)}" alt="${home} logo" onerror="this.style.display='none'"/>
+            <div class="abbr">${home}</div>
+          </div>
+          <div class="badge">HOME</div>
+        </div>
+
+        <div class="oddsBlock">
+          <div class="oddsLabel">Odds</div>
+          <div class="oddsVal">${fmtAmerican(g.homeAmericanOdds)}</div>
+        </div>
+
+        <div style="color:rgba(255,255,255,.80);font-size:12px;">
+          Model win: <b>${Number.isFinite(homeProb) ? pct(homeProb) : "N/A"}</b>
+        </div>
+        <div class="barWrap"><div class="bar" style="width:${Number.isFinite(homeProb) ? clamp01(homeProb)*100 : 50}%;"></div></div>
+
+        <div class="sub">
+          <div>Implied: <b>${impHome === null ? "N/A" : pct(impHome)}</b></div>
+          <div>Edge: <b>${edgeHome === null ? "N/A" : (edgeHome*100).toFixed(1) + "%"}</b></div>
+        </div>
+      `;
+
+      split.appendChild(left);
+      split.appendChild(right);
+      card.appendChild(split);
+
+      const footer = document.createElement("div");
+      footer.className = "footer";
+      footer.innerHTML = `
+        <div class="kpi">Matchup <b>${away} @ ${home}</b></div>
+        <div class="kpi">Best edge <b>${best ? `${best.team} (${best.side}) • ${(best.edge*100).toFixed(1)}%` : "N/A"}</b></div>
+        <div class="kpi">Home win <b>${Number.isFinite(homeProb) ? pct(homeProb) : "N/A"}</b></div>
+      `;
+      card.appendChild(footer);
+
+      return card;
+    }
+
+    async function load(){
+      out.innerHTML = "";
+      metaEl.textContent = "";
+      statusEl.textContent = "";
+      pillEl.textContent = "Loading…";
+
+      const d = dateEl.value;
+      const url = d ? `/api/predictions?date=${d}` : `/api/predictions`;
+
+      try{
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || `HTTP ${res.status}`);
+
+        const games = data.games || [];
+        metaEl.textContent = `${data.date || ""} • ${games.length} game(s)`;
+        pillEl.textContent = "Live";
+
+        if (!games.length){
+          out.innerHTML = `<div class="error">No games returned for this date.</div>`;
+          return;
+        }
+
+        for (const g of games){
+          out.appendChild(makeCard(g));
+        }
+      }catch(err){
+        pillEl.textContent = "Error";
+        out.innerHTML = `<div class="error">Error loading predictions: ${err.message}</div>`;
+      }
+    }
+
+    document.getElementById("btn").addEventListener("click", load);
+  </script>
+</body>
+</html>

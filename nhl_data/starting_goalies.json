@@ -1,0 +1,18 @@
+{
+  "_comment": "Fill by date from Daily Faceoff (https://www.dailyfaceoff.com/starting-goalies/). Use gameId or homeAbbrev/awayAbbrev to match games. Use homeGoalieId/awayGoalieId (NHL player ID) or homeGoalieName/awayGoalieName for lookup.",
+  "2026-02-25": [
+    {
+      "gameId": 2025020910,
+      "homeAbbrev": "NJD",
+      "awayAbbrev": "BUF",
+      "homeGoalieName": "Jake Allen",
+      "awayGoalieName": "Ukko-Pekka Luukkonen"
+    },
+    {
+      "homeAbbrev": "WSH",
+      "awayAbbrev": "PHI",
+      "homeGoalieName": "Charlie Lindgren",
+      "awayGoalieName": "Samuel Ersson"
+    }
+  ]
+}

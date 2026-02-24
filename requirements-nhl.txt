@@ -1,0 +1,4 @@
+# For SSL on macOS (avoids CERTIFICATE_VERIFY_FAILED with Python.org installs)
+certifi>=2024.0.0
+
+# Python 3.10+ for type hints (e.g. list[dict], float | None).
