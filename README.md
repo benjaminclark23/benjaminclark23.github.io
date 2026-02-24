@@ -1,6 +1,6 @@
 # NHL Game Predictor
 
-Predicts each NHL game with a **single gambling-style probability** in American odds: **negative** = favoured (e.g. **-150**), **positive** = underdog (e.g. **+130**). Run it **every game day** (e.g. each morning) to refresh predictions; it writes `nhl_data/predictions.json` so another app or AI agent can consume it easily.
+Predicts each NHL game with a **single gambling-style probability** in American odds: **negative** = favoured (e.g. **-150**), **positive** = underdog (e.g. **+130**). Run it **every game day** to refresh predictions.
 
 ## The 7 factors
 
