@@ -560,20 +560,76 @@
       return card;
     }
 
+
+    function isLocalHost(){
+      const h = window.location.hostname;
+      return h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0";
+    }
+
+    async function fetchJson(url){
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.detail || `HTTP ${res.status}`);
+      return data;
+    }
+
+    // GitHub Pages/static fallback: read the repo-published JSON file
+    async function fetchPredictionsFromStatic(selectedDate){
+      // If this page is served from /static/index.html, we need to go up one level
+      const base = window.location.pathname.includes("/static/") ? "../" : "./";
+      const url = base + "nhl_data/predictions.json";
+      const raw = await fetchJson(url);
+
+      // Support either:
+      // A) { date: "YYYY-MM-DD", games: [...] }
+      // B) { predictions: [ { date, games }, ... ] }
+      // C) [ { date, games }, ... ]
+      let block = null;
+
+      if (Array.isArray(raw)){
+        block = raw.find(x => x && x.date === selectedDate) || raw[0] || null;
+      } else if (raw && Array.isArray(raw.predictions)){
+        block = raw.predictions.find(x => x && x.date === selectedDate) || raw.predictions[0] || null;
+      } else if (raw && typeof raw === "object"){
+        block = raw;
+      }
+
+      if (!block) return { date: selectedDate, games: [] };
+
+      // If the JSON is single-day but user picked a different date, show empty
+      if (block.date && selectedDate && block.date !== selectedDate){
+        return { date: block.date, games: [], selectedDate };
+      }
+
+      return { date: block.date || selectedDate, games: block.games || [] };
+    }
+
     async function load(){
       out.innerHTML = "";
       metaEl.textContent = "";
       const d = dateEl.value;
       syncPrettyDate();
-      const url = d ? `/api/predictions?date=${d}` : `/api/predictions`;
 
       try{
-        const res = await fetch(url);
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || `HTTP ${res.status}`);
+        let data;
+
+        // Local dev (FastAPI running): use /api
+        if (isLocalHost()){
+          const url = d ? `/api/predictions?date=${d}` : `/api/predictions`;
+          data = await fetchJson(url);
+        } else {
+          // GitHub Pages/static hosting: read predictions.json committed to the repo
+          data = await fetchPredictionsFromStatic(d);
+        }
 
         const games = data.games || [];
-        metaEl.textContent = `${data.date || ""} • ${games.length} game(s)`;
+
+        // If we’re on static hosting and the JSON is for a different date, explain it
+        if (!isLocalHost() && data.selectedDate && data.date && data.date !== data.selectedDate){
+          metaEl.textContent = `Cached date: ${data.date} • No cached games for ${data.selectedDate}`;
+        } else {
+          metaEl.textContent = `${data.date || d || ""} • ${games.length} game(s)`;
+        }
 
         if (!games.length){
           out.innerHTML = `<div class="error">No games returned for this date.</div>`;
