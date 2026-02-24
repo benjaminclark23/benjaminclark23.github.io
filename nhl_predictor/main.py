@@ -68,26 +68,17 @@ def get_goalie_sv_for_game(
     return home_sv, away_sv
 
 
-def get_next_game_date(max_days: int = 14) -> date | None:
-    """
-    Return the next date that has at least one scheduled game (today, then tomorrow, etc.).
-    Returns None if no games found within max_days.
-    """
-    today = date.today()
-    for i in range(max_days):
-        d = today + timedelta(days=i)
-        if get_schedule(d):
-            return d
-    return None
 
 
 def run_predictions(for_date: date | None = None) -> dict:
     """
-    Fetch games for date (default: next game day), compute odds, return payload for JSON.
-    If for_date is None, use the next date that has games (today or later).
+    Fetch games for a specific date, compute odds, return payload for JSON.
+
+    - If `for_date` is provided, use it exactly (no auto-jumping to another date).
+    - If `for_date` is None, default to tomorrow.
     """
     if for_date is None:
-        for_date = get_next_game_date() or (date.today() + timedelta(days=1))
+        for_date = date.today() + timedelta(days=1)
     date_str = for_date.isoformat()
     games = get_schedule(for_date)
     if not games:
