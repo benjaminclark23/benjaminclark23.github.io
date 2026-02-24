@@ -44,7 +44,7 @@ def _get(url: str):
         return json.loads(resp.read().decode())
 
 def get_schedule(for_date: date) -> list[dict]:
-    """Return list of FUT games for the given date."""
+    """Return list of scheduled games for the given date (future/upcoming)."""
     url = f"{config.NHL_WEB_BASE}/schedule/{for_date.isoformat()}"
     data = _get(url)
 
@@ -57,18 +57,22 @@ def get_schedule(for_date: date) -> list[dict]:
             continue
 
         for g in week.get("games", []):
-            if g.get("gameState") != "FUT":
+            # Far-future games sometimes use different states than "FUT".
+            # Keep only games that are not started/finished.
+            state = (g.get("gameState") or "").upper()
+            if state in ("OFF", "FINAL", "LIVE", "CRIT", "IN_PROGRESS"):
                 continue
 
             home = g.get("homeTeam") or {}
             away = g.get("awayTeam") or {}
 
-            #  pull start time from common keys
+            # pull start time from common keys
             start_time_utc = (
                 g.get("startTimeUTC")
                 or g.get("startTimeUtc")
                 or g.get("startTime")
-                or g.get("gameDate") 
+                or g.get("gameDate")
+                or (g.get("startTime") or {}).get("utc")
             )
 
             games.append({
@@ -84,6 +88,31 @@ def get_schedule(for_date: date) -> list[dict]:
             })
 
     return games
+
+
+# Helper to fetch schedule for a date range (inclusive)
+def get_schedule_range(start: date, end: date) -> list[dict]:
+    """Return scheduled games between start and end (inclusive)."""
+    if end < start:
+        start, end = end, start
+
+    all_games: list[dict] = []
+    d = start
+    while d <= end:
+        all_games.extend(get_schedule(d))
+        d += timedelta(days=1)
+
+    # De-dup by game id while preserving order
+    seen: set[int] = set()
+    deduped: list[dict] = []
+    for g in all_games:
+        gid = g.get("id")
+        if isinstance(gid, int) and gid in seen:
+            continue
+        if isinstance(gid, int):
+            seen.add(gid)
+        deduped.append(g)
+    return deduped
 
 def get_standings() -> dict:
     """Return standings with last-10 and season W-L. Keyed by team abbrev."""
