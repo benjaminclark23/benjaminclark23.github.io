@@ -1,6 +1,8 @@
-"""
-Daily runner: fetch upcoming games, gather 5 factors, predict American odds, write JSON.
-Run before game day (e.g. morning). Output is app-friendly predictions.json.
+""" 
+Prediction runner.
+
+- `run_predictions()` returns a single-day payload for the API (date + games).
+- The CLI (`python -m nhl_predictor.main`) writes a multi-day `predictions.json` suitable for GitHub Pages.
 """
 
 import json
@@ -133,21 +135,81 @@ def write_predictions(payload: dict) -> str:
     return path
 
 
+def write_predictions_multi(predictions: list[dict]) -> str:
+    """Write a multi-day payload to config.PREDICTIONS_PATH. Return path."""
+    os.makedirs(config.DATA_DIR, exist_ok=True)
+    path = config.PREDICTIONS_PATH
+    payload = {
+        "generatedAt": date.today().isoformat(),
+        "predictions": predictions,
+    }
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+    return path
+
+
 def main() -> None:
-    """Run predictions for tomorrow and write predictions.json."""
+    """CLI: build a multi-day predictions.json for static hosting."""
     import sys
-    for_date = None
-    if len(sys.argv) > 1:
+
+    # Usage:
+    #   python -m nhl_predictor.main                -> tomorrow, 14 days
+    #   python -m nhl_predictor.main 2026-02-25     -> start date, 14 days
+    #   python -m nhl_predictor.main 2026-02-25 --days 21
+
+    start_date: date
+    days = 14
+
+    args = sys.argv[1:]
+
+    # parse optional start date
+    if args and not args[0].startswith("-"):
         try:
-            for_date = date.fromisoformat(sys.argv[1])
+            start_date = date.fromisoformat(args[0])
         except ValueError:
-            print("Usage: python -m nhl_predictor.main [YYYY-MM-DD]")
+            print("Usage: python -m nhl_predictor.main [YYYY-MM-DD] [--days N]")
             sys.exit(1)
-    payload = run_predictions(for_date)
-    path = write_predictions(payload)
-    print(f"Wrote {len(payload.get('games', []))} game(s) to {path}")
-    for g in payload.get("games", []):
-        print(f"  {g['awayTeam']} @ {g['homeTeam']}: Home {g['homeAmericanOdds']}, Away {g['awayAmericanOdds']}")
+        args = args[1:]
+    else:
+        start_date = date.today() + timedelta(days=1)
+
+    # parse --days N
+    if args:
+        for i, a in enumerate(args):
+            if a == "--days" and i + 1 < len(args):
+                try:
+                    days = int(args[i + 1])
+                except ValueError:
+                    print("--days must be an integer")
+                    sys.exit(1)
+                break
+
+    days = max(1, min(days, 60))
+
+    predictions: list[dict] = []
+    total_games = 0
+
+    for i in range(days):
+        d = start_date + timedelta(days=i)
+        payload = run_predictions(d)
+        games = payload.get("games", []) or []
+        predictions.append({
+            "date": payload.get("date") or d.isoformat(),
+            "games": games,
+        })
+        total_games += len(games)
+
+    path = write_predictions_multi(predictions)
+
+    non_empty = [p for p in predictions if p.get("games")]
+    print(f"Wrote {len(predictions)} day(s), {total_games} total game(s) to {path}")
+    if not non_empty:
+        print("No games scheduled in this window.")
+    else:
+        for block in non_empty:
+            print(f"\n{block['date']} — {len(block['games'])} game(s)")
+            for g in block["games"]:
+                print(f"  {g['awayTeam']} @ {g['homeTeam']}: Home {g['homeAmericanOdds']}, Away {g['awayAmericanOdds']}")
 
 
 if __name__ == "__main__":
